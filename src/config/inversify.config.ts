@@ -2,13 +2,14 @@ import {interfaces, TYPE} from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import TAGS from '../constants/tags';
 import {Container} from 'inversify';
-import {HomeController} from '../controllers/HomeController';
-import {UserRegistry} from '../services/UserRegistry';
-import {EmailMessageService, MessageService} from '../services/MessageService';
+import {TodoItemsController} from '../controllers/TodoController';
+import {TodoRegistry} from '../services/TodoRegistry';
 
 var appContainer = new Container();
-appContainer.bind<MessageService>(TYPES.MessageService).to(EmailMessageService);
-appContainer.bind<UserRegistry>(TYPES.UserRegistry).to(UserRegistry);
-appContainer.bind<interfaces.Controller>(TYPE.Controller).to(HomeController).whenTargetNamed(TAGS.HomeController);
+
+// TodoRegistry will be a signleton to store items from one call to the other
+appContainer.bind<TodoRegistry>(TYPES.TodoRegistry).toConstantValue(new TodoRegistry());
+
+appContainer.bind<interfaces.Controller>(TYPE.Controller).to(TodoItemsController).whenTargetNamed(TAGS.TodoItemsController);
 
 export {appContainer};

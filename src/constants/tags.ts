@@ -1,5 +1,5 @@
 const TAGS = {
-    HomeController: 'HomeController'
+    TodoItemsController: 'TodoItemsController'
 };
 
 export default TAGS;
